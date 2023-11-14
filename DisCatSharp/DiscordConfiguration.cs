@@ -34,6 +34,7 @@ public sealed class DiscordConfiguration
 			this._token = value.Trim();
 		}
 	}
+
 	private string _token = "";
 
 	/// <summary>
@@ -301,6 +302,21 @@ public sealed class DiscordConfiguration
 	public bool EnablePayloadReceivedEvent { internal get; set; } = false;
 
 	/// <summary>
+	/// <para>Whether to enable caching.</para>
+	/// <para>Disabling this causes entities to not be cached in any way.</para>
+	/// <para>While being disabled, you will only be able to work with the object provided in the gateway payloads or api responses.</para>
+	/// <para>If this is disabled, certain properties will be <see langword="null"/>.</para>
+	/// </summary>
+	public bool EnableCaching { internal get; set; } = true;
+
+	/*
+	/// <summary>
+	/// <para>Allows to use a different cache provider or even own implementation.</para>
+	/// <para>Defaults to <see cref="DisCatSharpRamCacheProvider"/>.</para>
+	/// </summary>
+	public IDisCatSharpCacheProvider CacheProvider { internal get; set; } = new DisCatSharpRamCacheProvider();*/
+
+	/// <summary>
 	/// <para>Sets which exceptions to track with sentry.</para>
 	/// <para>Do not touch this unless you're developing the library.</para>
 	/// </summary>
@@ -314,9 +330,10 @@ public sealed class DiscordConfiguration
 				throw new AccessViolationException("Cannot set this as non-library-dev");
 			else if (value == null)
 				this._exceptions.Clear();
-			else this._exceptions = value.All(val => val.BaseType == typeof(DisCatSharpException))
-				? value
-				: throw new InvalidOperationException("Can only track exceptions who inherit from " + nameof(DisCatSharpException) + " and must be constructed with typeof(Type)");
+			else
+				this._exceptions = value.All(val => val.BaseType == typeof(DisCatSharpException))
+					? value
+					: throw new InvalidOperationException("Can only track exceptions who inherit from " + nameof(DisCatSharpException) + " and must be constructed with typeof(Type)");
 		}
 	}
 
@@ -325,8 +342,7 @@ public sealed class DiscordConfiguration
 	/// </summary>
 	private List<Type> _exceptions = new()
 	{
-		typeof(ServerErrorException),
-		typeof(BadRequestException)
+		typeof(ServerErrorException), typeof(BadRequestException)
 	};
 
 	/// <summary>
@@ -435,5 +451,7 @@ public sealed class DiscordConfiguration
 		this.AutoFetchSkuIds = other.AutoFetchSkuIds;
 		this.SkuId = other.SkuId;
 		this.TestSkuId = other.TestSkuId;
+		this.EnableCaching = other.EnableCaching;
+		//this.CacheProvider = other.CacheProvider;
 	}
 }
