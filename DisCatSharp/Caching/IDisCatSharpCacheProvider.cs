@@ -163,8 +163,17 @@ public interface IDisCatSharpCacheProvider
 	/// <param name="location">The target cache.</param>
 	/// <param name="id">The objects id.</param>
 	/// <param name="obj">The object to add or update.</param>
+	/// <param name="updatedObject">The updated object.</param>
 	/// <returns>Whether an object was found and added or updated.</returns>
-	bool TryAddOrUpdate<T>(CacheLocation location, ulong id, T obj);
+	bool TryAddOrUpdate<T>(CacheLocation location, ulong id, T obj, out T updatedObject);
+
+	/// <summary>
+	/// Checks whether an object is in the cache.
+	/// </summary>
+	/// <param name="location">The target cache.</param>
+	/// <param name="id">The id to lookup.</param>
+	/// <returns>Whether an object for the id was found.</returns>
+	bool HasKey(CacheLocation location, ulong id);
 
 	/// <summary>
 	/// Tries to remove an object from the cache.

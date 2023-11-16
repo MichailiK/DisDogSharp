@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 
 using DisCatSharp.Entities;
 
@@ -24,7 +25,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the guild cache.
 	/// </summary>
-	public RingBuffer<DiscordGuild> GuildCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordGuild> GuildCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int ChannelCacheSize
@@ -33,7 +34,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the channel cache.
 	/// </summary>
-	public RingBuffer<DiscordChannel> ChannelCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordChannel> ChannelCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int ThreadCacheSize
@@ -42,7 +43,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the thread cache.
 	/// </summary>
-	public RingBuffer<DiscordThreadChannel> ThreadCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordThreadChannel> ThreadCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int MemberCacheSize
@@ -51,7 +52,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the member cache.
 	/// </summary>
-	public RingBuffer<DiscordMember> MemberCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordMember> MemberCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int UserCacheSize
@@ -60,7 +61,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the user cache.
 	/// </summary>
-	public RingBuffer<DiscordUser> UserCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordUser> UserCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int RoleCacheSize
@@ -69,7 +70,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the role cache.
 	/// </summary>
-	public RingBuffer<DiscordRole> RoleCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordRole> RoleCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int EmojiCacheSize
@@ -78,7 +79,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the emoji cache.
 	/// </summary>
-	public RingBuffer<DiscordEmoji> EmojiCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordEmoji> EmojiCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int MessageCacheSize
@@ -87,7 +88,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the message cache.
 	/// </summary>
-	public RingBuffer<DiscordMessage> MessageCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordMessage> MessageCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int PresenceCacheSize
@@ -96,7 +97,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the presence cache.
 	/// </summary>
-	public RingBuffer<DiscordPresence> PresenceCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordPresence> PresenceCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int VoiceStateCacheSize
@@ -105,7 +106,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the voice state cache.
 	/// </summary>
-	public RingBuffer<DiscordVoiceState> VoiceStateCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordVoiceState> VoiceStateCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int InviteCacheSize
@@ -114,7 +115,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the invite cache.
 	/// </summary>
-	public RingBuffer<DiscordInvite> InviteCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordInvite> InviteCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int StageInstanceCacheSize
@@ -123,7 +124,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the stage instance cache.
 	/// </summary>
-	public RingBuffer<DiscordStageInstance> StageInstanceCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordStageInstance> StageInstanceCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int StickerCacheSize
@@ -132,7 +133,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the sticker cache.
 	/// </summary>
-	public RingBuffer<DiscordSticker> StickerCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordSticker> StickerCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int InteractionCacheSize
@@ -141,7 +142,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the interaction cache.
 	/// </summary>
-	public RingBuffer<DiscordInteraction> InteractionCache { get; } = new(Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordInteraction> InteractionCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc cref="IDisCatSharpCacheProvider.Configuration" />
 	public static DiscordConfiguration Configuration { internal get; set; }
@@ -175,7 +176,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 		=> throw new NotImplementedException();
 
 	/// <inheritdoc />
-	public bool TryAddOrUpdate<T>(CacheLocation location, ulong id, T obj)
+	public bool TryAddOrUpdate<T>(CacheLocation location, ulong id, T obj, out T updatedObject)
 		=> throw new NotImplementedException();
 
 	/// <inheritdoc />
@@ -193,4 +194,25 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <inheritdoc />
 	public void Init(DiscordConfiguration config)
 		=> Configuration = config ?? throw new ArgumentNullException(nameof(config), "The configuration cannot be null.");
+
+	/// <inheritdoc />
+	public bool HasKey(CacheLocation location, ulong id)
+		=> location switch
+		{
+			CacheLocation.Guilds => this.GuildCache.ContainsKey(id),
+			CacheLocation.Users => this.UserCache.ContainsKey(id),
+			CacheLocation.Channels => this.ChannelCache.ContainsKey(id),
+			CacheLocation.Threads => this.ThreadCache.ContainsKey(id),
+			CacheLocation.Members => this.MemberCache.ContainsKey(id),
+			CacheLocation.Roles => this.RoleCache.ContainsKey(id),
+			CacheLocation.Emojis => this.EmojiCache.ContainsKey(id),
+			CacheLocation.Messages => this.MessageCache.ContainsKey(id),
+			CacheLocation.Presences => this.PresenceCache.ContainsKey(id),
+			CacheLocation.VoiceStates => this.VoiceStateCache.ContainsKey(id),
+			CacheLocation.Invites => this.InviteCache.ContainsKey(id),
+			CacheLocation.StageInstances => this.StageInstanceCache.ContainsKey(id),
+			CacheLocation.Stickers => this.StickerCache.ContainsKey(id),
+			CacheLocation.Interactions => this.InteractionCache.ContainsKey(id),
+			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location."),
+		};
 }

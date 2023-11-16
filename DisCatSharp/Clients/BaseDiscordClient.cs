@@ -1,4 +1,3 @@
-
 #pragma warning disable CS0618
 using System;
 using System.Collections.Concurrent;
@@ -109,6 +108,7 @@ public abstract class BaseDiscordClient : IDisposable
 	/// Gets the list of available voice regions. This property is meant as a way to modify <see cref="VoiceRegions"/>.
 	/// </summary>
 	protected internal ConcurrentDictionary<string, DiscordVoiceRegion> InternalVoiceRegions { get; set; }
+
 	internal Lazy<IReadOnlyDictionary<string, DiscordVoiceRegion>> VoiceRegionsLazy;
 
 	/// <summary>
@@ -139,9 +139,11 @@ public abstract class BaseDiscordClient : IDisposable
 				x.Format = ConsoleLoggerFormat.Default;
 				x.TimestampFormat = this.Configuration.LogTimestampFormat;
 				x.LogToStandardErrorThreshold = this.Configuration.MinimumLogLevel;
-
 			});
-			var optionsFactory = new OptionsFactory<ConsoleLoggerOptions>(new[] { configureNamedOptions }, Enumerable.Empty<IPostConfigureOptions<ConsoleLoggerOptions>>());
+			var optionsFactory = new OptionsFactory<ConsoleLoggerOptions>(new[]
+			{
+				configureNamedOptions
+			}, Enumerable.Empty<IPostConfigureOptions<ConsoleLoggerOptions>>());
 			var optionsMonitor = new OptionsMonitor<ConsoleLoggerOptions>(optionsFactory, Enumerable.Empty<IOptionsChangeTokenSource<ConsoleLoggerOptions>>(), new OptionsCache<ConsoleLoggerOptions>());
 
 			var l = new ConsoleLoggerProvider(optionsMonitor);
@@ -162,7 +164,6 @@ public abstract class BaseDiscordClient : IDisposable
 
 		if (!this.Configuration.HasShardLogger)
 			if (this.Configuration.LoggerFactory != null && this.Configuration.EnableSentry)
-			{
 				this.Configuration.LoggerFactory.AddSentry(o =>
 				{
 					o.InitializeSdk = true;
@@ -204,15 +205,18 @@ public abstract class BaseDiscordClient : IDisposable
 									Id = this.CurrentUser.Id.ToString(),
 									Username = this.CurrentUser.UsernameWithDiscriminator,
 									Other = new Dictionary<string, string>()
-								{
-									{ "developer", this.Configuration.DeveloperUserId?.ToString() ?? "not_given" },
-									{ "email", this.Configuration.FeedbackEmail ?? "not_given" }
-								}
+									{
+										{
+											"developer", this.Configuration.DeveloperUserId?.ToString() ?? "not_given"
+										},
+										{
+											"email", this.Configuration.FeedbackEmail ?? "not_given"
+										}
+									}
 								};
 						return e;
 					};
 				});
-			}
 
 		if (this.Configuration.EnableSentry)
 			this.Sentry = new(new()
@@ -252,10 +256,14 @@ public abstract class BaseDiscordClient : IDisposable
 								Id = this.CurrentUser.Id.ToString(),
 								Username = this.CurrentUser.UsernameWithDiscriminator,
 								Other = new Dictionary<string, string>()
+								{
 									{
-										{ "developer", this.Configuration.DeveloperUserId?.ToString() ?? "not_given" },
-										{ "email", this.Configuration.FeedbackEmail ?? "not_given" }
+										"developer", this.Configuration.DeveloperUserId?.ToString() ?? "not_given"
+									},
+									{
+										"email", this.Configuration.FeedbackEmail ?? "not_given"
 									}
+								}
 							};
 
 					if (!e.Extra.ContainsKey("Found Fields"))
@@ -283,9 +291,7 @@ public abstract class BaseDiscordClient : IDisposable
 
 		var iv = a.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
 		if (iv != null)
-		{
 			this.VersionString = iv.InformationalVersion;
-		}
 		else
 		{
 			var v = a.GetName().Version;
@@ -337,17 +343,23 @@ public abstract class BaseDiscordClient : IDisposable
 
 		if (tapp.Team == null)
 		{
-			app.Members = new(new[] { new DiscordUser(tapp.Owner) });
+			app.Members = new(new[]
+			{
+				new DiscordUser(tapp.Owner)
+			});
 			app.Team = null;
 			app.TeamName = null;
-			app.Owner = new DiscordUser(tapp.Owner);
+			app.Owner = new(tapp.Owner);
 		}
 		else
 		{
 			app.Team = new(tapp.Team);
 
 			var members = tapp.Team.Members
-				.Select(x => new DiscordTeamMember(x) { TeamId = app.Team.Id, TeamName = app.Team.Name, User = new(x.User) })
+				.Select(x => new DiscordTeamMember(x)
+				{
+					TeamId = app.Team.Id, TeamName = app.Team.Name, User = new(x.User)
+				})
 				.ToArray();
 
 			foreach (var member in members)
@@ -396,15 +408,22 @@ public abstract class BaseDiscordClient : IDisposable
 	/// <returns>The updated application.</returns>
 	public async Task<DiscordApplication> UpdateCurrentApplicationInfoAsync(
 		Optional<string?> description,
-		Optional<string?> interactionsEndpointUrl, Optional<string?> roleConnectionsVerificationUrl, Optional<string?> customInstallUrl,
-		Optional<List<string>?> tags, Optional<Stream?> icon, Optional<Stream?> coverImage,
-		Optional<ApplicationFlags> flags, Optional<DiscordApplicationInstallParams?> installParams)
+		Optional<string?> interactionsEndpointUrl,
+		Optional<string?> roleConnectionsVerificationUrl,
+		Optional<string?> customInstallUrl,
+		Optional<List<string>?> tags,
+		Optional<Stream?> icon,
+		Optional<Stream?> coverImage,
+		Optional<ApplicationFlags> flags,
+		Optional<DiscordApplicationInstallParams?> installParams
+	)
 	{
 		var iconb64 = ImageTool.Base64FromStream(icon);
 		var coverImageb64 = ImageTool.Base64FromStream(coverImage);
 		if (tags != null && tags.HasValue && tags.Value != null)
 			if (tags.Value.Any(x => x.Length > 20))
 				throw new InvalidOperationException("Tags can not exceed 20 chars.");
+
 		_ = await this.ApiClient.ModifyCurrentApplicationInfoAsync(description, interactionsEndpointUrl, roleConnectionsVerificationUrl, customInstallUrl, tags, iconb64, coverImageb64, flags, installParams).ConfigureAwait(false);
 		// We use GetCurrentApplicationAsync because modify returns internal data not meant for developers.
 		var app = await this.GetCurrentApplicationAsync().ConfigureAwait(false);
@@ -424,10 +443,12 @@ public abstract class BaseDiscordClient : IDisposable
 	/// </summary>
 	public virtual async Task InitializeAsync()
 	{
+		// ReSharper disable HeuristicUnreachableCode
 		if (this.CurrentUser == null)
 		{
-			this.CurrentUser = await this.ApiClient.GetCurrentUserAsync().ConfigureAwait(false);
-			this.UserCache.AddOrUpdate(this.CurrentUser.Id, this.CurrentUser, (id, xu) => this.CurrentUser);
+			var user = await this.ApiClient.GetCurrentUserAsync().ConfigureAwait(false);
+			this.CacheProvider.TryAddOrUpdate(CacheLocation.Users, user.Id, user, out user);
+			this.CurrentUser = user;
 		}
 
 		if (this.Configuration.TokenType == TokenType.Bot && this.CurrentApplication == null)
@@ -447,10 +468,16 @@ public abstract class BaseDiscordClient : IDisposable
 				Username = this.CurrentUser.UsernameWithDiscriminator,
 				Other = new Dictionary<string, string>()
 				{
-					{ "developer", this.Configuration.DeveloperUserId?.ToString() ?? "not_given" },
-					{ "email", this.Configuration.FeedbackEmail ?? "not_given" }
+					{
+						"developer", this.Configuration.DeveloperUserId?.ToString() ?? "not_given"
+					},
+					{
+						"email", this.Configuration.FeedbackEmail ?? "not_given"
+					}
 				}
 			});
+
+		// ReSharper enable HeuristicUnreachableCode
 	}
 
 	/// <summary>
@@ -471,7 +498,7 @@ public abstract class BaseDiscordClient : IDisposable
 			this.Configuration.Token = token;
 
 			var res = await this.ApiClient.GetGatewayInfoAsync().ConfigureAwait(false);
-			this.Configuration.Token = null;
+			this.Configuration.Token = null!;
 			return res;
 		}
 
@@ -505,10 +532,13 @@ public abstract class BaseDiscordClient : IDisposable
 	/// <param name="user">The user.</param>
 	internal bool TryGetCachedUserInternal(ulong userId, out DiscordUser user)
 	{
-		if (this.UserCache.TryGetValue(userId, out user))
+		if (this.CacheProvider.TryGet(CacheLocation.Users, userId, out user))
 			return true;
 
-		user = new() { Id = userId, Discord = this };
+		user = new()
+		{
+			Id = userId, Discord = this
+		};
 		return false;
 	}
 
