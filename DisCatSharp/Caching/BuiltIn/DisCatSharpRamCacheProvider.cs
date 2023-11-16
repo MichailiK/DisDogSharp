@@ -10,7 +10,12 @@ namespace DisCatSharp.Caching.BuiltIn;
 public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 {
 	/// <inheritdoc />
-	public int TotalCacheSize { get; internal set; }
+	public int CurrentCacheSize
+		=> this.GuildCacheSize + this.ChannelCacheSize + this.ThreadCacheSize + this.MemberCacheSize + this.UserCacheSize + this.RoleCacheSize + this.EmojiCacheSize + this.MessageCacheSize + this.PresenceCacheSize + this.VoiceStateCacheSize + this.InviteCacheSize + this.StageInstanceCacheSize + this.StickerCacheSize + this.InteractionCacheSize;
+
+	/// <inheritdoc />
+	public int TotalCacheSize
+		=> Configuration.CacheSize * Enum.GetValues<CacheLocation>().Length;
 
 	/// <inheritdoc />
 	public int GuildCacheSize

@@ -13,9 +13,14 @@ public interface IDisCatSharpCacheProvider
 	static DiscordConfiguration Configuration { internal get; set; }
 
 	/// <summary>
-	/// Gets the current size of the cache.
+	/// Gets the total size of the cache.
 	/// </summary>
 	int TotalCacheSize { get; }
+
+	/// <summary>
+	/// Gets the current size of the cache.
+	/// </summary>
+	int CurrentCacheSize { get; }
 
 	/// <summary>
 	/// Gets the current size of the guild cache.

@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 
 using DisCatSharp.Attributes;
+using DisCatSharp.Caching;
 using DisCatSharp.Entities;
 using DisCatSharp.Enums;
 using DisCatSharp.Exceptions;
@@ -293,7 +294,18 @@ public abstract class BaseDiscordClient : IDisposable
 			if (v.Revision > 0)
 				this.VersionString = $"{vs}, CI build {v.Revision}";
 		}
+
+		if (this.Configuration.EnableCaching)
+		{
+			this.CacheProvider = this.Configuration.CacheProvider;
+			this.CacheProvider.Init(this.Configuration);
+		}
 	}
+
+	/// <summary>
+	/// Gets the cache provider.
+	/// </summary>
+	internal IDisCatSharpCacheProvider CacheProvider { get; set; }
 
 	/// <summary>
 	/// Gets the current API application.
