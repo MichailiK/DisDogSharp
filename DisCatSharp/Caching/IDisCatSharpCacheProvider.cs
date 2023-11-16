@@ -3,9 +3,9 @@ using System;
 namespace DisCatSharp.Caching;
 
 /// <summary>
-/// Represents a cache for DisCatSharp.
+/// Represents a cache provider for DisCatSharp.
 /// </summary>
-public interface IDisCatSharpCache
+public interface IDisCatSharpCacheProvider
 {
 	/// <summary>
 	/// Gets the current size of the cache.
@@ -91,11 +91,6 @@ public interface IDisCatSharpCache
 	/// Gets the current size of the user presence cache.
 	/// </summary>
 	int UserPresenceCacheSize { get; }
-
-	/// <summary>
-	/// Gets whether this cache is an official cache extension.
-	/// </summary>
-	bool OfficialCacheExtension { get; internal set; }
 
 	/// <summary>
 	/// Adds an object to the cache.

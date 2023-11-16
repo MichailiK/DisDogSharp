@@ -4,6 +4,8 @@ using System.Linq;
 using System.Net;
 
 using DisCatSharp.Attributes;
+using DisCatSharp.Caching;
+using DisCatSharp.Caching.BuiltIn;
 using DisCatSharp.Entities;
 using DisCatSharp.Enums;
 using DisCatSharp.Exceptions;
@@ -301,20 +303,19 @@ public sealed class DiscordConfiguration
 	/// </summary>
 	public bool EnablePayloadReceivedEvent { internal get; set; } = false;
 
-	/*/// <summary>
+	/// <summary>
 	/// <para>Whether to enable caching.</para>
 	/// <para>Disabling this causes entities to not be cached in any way.</para>
 	/// <para>While being disabled, you will only be able to work with the object provided in the gateway payloads or api responses.</para>
 	/// <para>If this is disabled, certain properties will be <see langword="null"/>.</para>
 	/// </summary>
-	public bool EnableCaching { internal get; set; } = true;*/
+	public bool EnableCaching { internal get; set; } = true;
 
-	/*
 	/// <summary>
 	/// <para>Allows to use a different cache provider or even own implementation.</para>
 	/// <para>Defaults to <see cref="DisCatSharpRamCacheProvider"/>.</para>
 	/// </summary>
-	public IDisCatSharpCacheProvider CacheProvider { internal get; set; } = new DisCatSharpRamCacheProvider();*/
+	public IDisCatSharpCacheProvider CacheProvider { internal get; set; } = new DisCatSharpRamCacheProvider();
 
 	/// <summary>
 	/// <para>Sets which exceptions to track with sentry.</para>
