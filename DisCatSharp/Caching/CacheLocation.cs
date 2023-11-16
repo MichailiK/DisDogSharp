@@ -80,15 +80,5 @@ public enum CacheLocation
 	/// <summary>
 	/// The interactions cache.
 	/// </summary>
-	Interactions,
-
-	/// <summary>
-	/// The component interactions cache.
-	/// </summary>
-	ComponentInteractions,
-
-	/// <summary>
-	/// The user presence cache.
-	/// </summary>
-	UserPresences
+	Interactions
 }

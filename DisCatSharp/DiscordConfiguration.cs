@@ -318,6 +318,12 @@ public sealed class DiscordConfiguration
 	public IDisCatSharpCacheProvider CacheProvider { internal get; set; } = new DisCatSharpRamCacheProvider();
 
 	/// <summary>
+	/// <para>Sets the default cache size used for providers based on <see cref="IDisCatSharpCacheProvider"/>.</para>
+	/// <para>Defaults to <c>2048</c>.</para>
+	/// </summary>
+	public int CacheSize { get; set; } = 2048;
+
+	/// <summary>
 	/// <para>Sets which exceptions to track with sentry.</para>
 	/// <para>Do not touch this unless you're developing the library.</para>
 	/// </summary>

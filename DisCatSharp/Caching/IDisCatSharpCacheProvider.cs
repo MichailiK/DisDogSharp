@@ -8,6 +8,11 @@ namespace DisCatSharp.Caching;
 public interface IDisCatSharpCacheProvider
 {
 	/// <summary>
+	/// Gets the configuration.
+	/// </summary>
+	static DiscordConfiguration Configuration { internal get; set; }
+
+	/// <summary>
 	/// Gets the current size of the cache.
 	/// </summary>
 	int TotalCacheSize { get; }
@@ -83,14 +88,10 @@ public interface IDisCatSharpCacheProvider
 	int InteractionCacheSize { get; }
 
 	/// <summary>
-	/// Gets the current size of the component interaction cache.
+	/// Initializes the cache provider.
 	/// </summary>
-	int ComponentInteractionCacheSize { get; }
-
-	/// <summary>
-	/// Gets the current size of the user presence cache.
-	/// </summary>
-	int UserPresenceCacheSize { get; }
+	/// <param name="config">The configuration to use.</param>
+	void Init(DiscordConfiguration config);
 
 	/// <summary>
 	/// Adds an object to the cache.
