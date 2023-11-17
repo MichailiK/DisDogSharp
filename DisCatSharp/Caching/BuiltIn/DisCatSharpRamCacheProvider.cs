@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
 
 using DisCatSharp.Entities;
 
@@ -12,7 +14,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 {
 	/// <inheritdoc />
 	public int CurrentCacheSize
-		=> this.GuildCacheSize + this.ChannelCacheSize + this.ThreadCacheSize + this.MemberCacheSize + this.UserCacheSize + this.RoleCacheSize + this.EmojiCacheSize + this.MessageCacheSize + this.PresenceCacheSize + this.VoiceStateCacheSize + this.InviteCacheSize + this.StageInstanceCacheSize + this.StickerCacheSize + this.InteractionCacheSize;
+		=> this.GuildCacheSize + this.ChannelCacheSize + this.ThreadCacheSize + this.MemberCacheSize + this.UserCacheSize + this.RoleCacheSize + this.EmojiCacheSize + this.MessageCacheSize + this.PresenceCacheSize + this.VoiceStateCacheSize + this.InviteCacheSize + this.StageInstanceCacheSize + this.StickerCacheSize + this.InteractionCacheSize + this.ScheduledEventCacheSize;
 
 	/// <inheritdoc />
 	public int TotalCacheSize
@@ -79,7 +81,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the emoji cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordEmoji> EmojiCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, DiscordGuildEmoji> EmojiCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int MessageCacheSize
@@ -98,6 +100,15 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// Gets the presence cache.
 	/// </summary>
 	public ConcurrentDictionary<ulong, DiscordPresence> PresenceCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+
+	/// <inheritdoc />
+	public int ScheduledEventCacheSize
+		=> this.ScheduledEventCache.Count;
+
+	/// <summary>
+	/// Gets the scheduled event cache.
+	/// </summary>
+	public ConcurrentDictionary<ulong, DiscordScheduledEvent> ScheduledEventCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int VoiceStateCacheSize
@@ -154,6 +165,50 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <inheritdoc />
 	public T? Get<T>(CacheLocation location, ulong id)
 		=> throw new NotImplementedException();
+
+	/// <inheritdoc />
+	public List<T> GetAll<T>(CacheLocation location) where T : ObservableApiObject
+		=> location switch
+		{
+			CacheLocation.Guilds => this.GuildCache.Values.OfType<T>().ToList(),
+			CacheLocation.Users => this.UserCache.Values.OfType<T>().ToList(),
+			CacheLocation.Channels => this.ChannelCache.Values.OfType<T>().ToList(),
+			CacheLocation.Threads => this.ThreadCache.Values.OfType<T>().ToList(),
+			CacheLocation.Members => this.MemberCache.Values.OfType<T>().ToList(),
+			CacheLocation.Roles => this.RoleCache.Values.OfType<T>().ToList(),
+			CacheLocation.Emojis => this.EmojiCache.Values.OfType<T>().ToList(),
+			CacheLocation.Messages => this.MessageCache.Values.OfType<T>().ToList(),
+			CacheLocation.Presences => this.PresenceCache.Values.OfType<T>().ToList(),
+			CacheLocation.VoiceStates => this.VoiceStateCache.Values.OfType<T>().ToList(),
+			CacheLocation.Invites => this.InviteCache.Values.OfType<T>().ToList(),
+			CacheLocation.StageInstances => this.StageInstanceCache.Values.OfType<T>().ToList(),
+			CacheLocation.Stickers => this.StickerCache.Values.OfType<T>().ToList(),
+			CacheLocation.Interactions => this.InteractionCache.Values.OfType<T>().ToList(),
+			CacheLocation.ScheduledEvents => this.ScheduledEventCache.Values.OfType<T>().ToList(),
+			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location.")
+		};
+
+	/// <inheritdoc />
+	public List<T> GetAllFiltered<T>(CacheLocation location, ulong guildId) where T : ObservableApiObject
+		=> location switch
+		{
+			CacheLocation.Channels => this.ChannelCache.Values.Where(x => x.GuildId is not null && x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Threads => this.ThreadCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Members => this.MemberCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Roles => this.RoleCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Emojis => this.EmojiCache.Values.Where(x => x.Guild.Id == guildId).OfType<T>().ToList(),
+			CacheLocation.Messages => this.MessageCache.Values.Where(x => x.GuildId is not null && x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Presences => this.PresenceCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.VoiceStates => this.VoiceStateCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.StageInstances => this.StageInstanceCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Stickers => this.StickerCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Interactions => this.InteractionCache.Values.Where(x => x.GuildId is not null && x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Invites => this.InviteCache.Values.Where(x => x.Guild is not null && x.Guild.Id == guildId).OfType<T>().ToList(),
+			CacheLocation.ScheduledEvents => this.ScheduledEventCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Guilds => throw new NotSupportedException("Filtering not supported for this type of cache."),
+			CacheLocation.Users => throw new NotSupportedException("Filtering not supported for this type of cache."),
+			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location.")
+		};
 
 	/// <inheritdoc />
 	public void Remove<T>(CacheLocation location, T obj)
@@ -213,6 +268,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 			CacheLocation.StageInstances => this.StageInstanceCache.ContainsKey(id),
 			CacheLocation.Stickers => this.StickerCache.ContainsKey(id),
 			CacheLocation.Interactions => this.InteractionCache.ContainsKey(id),
-			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location."),
+			CacheLocation.ScheduledEvents => this.ScheduledEventCache.ContainsKey(id),
+			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location.")
 		};
 }

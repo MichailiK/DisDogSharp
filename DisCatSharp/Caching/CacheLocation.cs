@@ -80,5 +80,10 @@ public enum CacheLocation
 	/// <summary>
 	/// The interactions cache.
 	/// </summary>
-	Interactions
+	Interactions,
+
+	/// <summary>
+	/// The scheduled events cache.
+	/// </summary>
+	ScheduledEvents
 }

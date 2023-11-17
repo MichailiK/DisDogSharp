@@ -1,4 +1,8 @@
 using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+
+using DisCatSharp.Entities;
 
 namespace DisCatSharp.Caching;
 
@@ -68,6 +72,11 @@ public interface IDisCatSharpCacheProvider
 	int PresenceCacheSize { get; }
 
 	/// <summary>
+	/// Gets the current size of the scheduled event cache.
+	/// </summary>
+	int ScheduledEventCacheSize { get; }
+
+	/// <summary>
 	/// Gets the current size of the voice state cache.
 	/// </summary>
 	int VoiceStateCacheSize { get; }
@@ -115,6 +124,21 @@ public interface IDisCatSharpCacheProvider
 	/// <param name="id">The objects id.</param>
 	/// <returns>The found object.</returns>
 	T? Get<T>(CacheLocation location, ulong id);
+
+	/// <summary>
+	/// Gets all objects from the cache.
+	/// </summary>
+	/// <param name="location">The target cache.</param>
+	/// <returns>The found object.</returns>
+	List<T> GetAll<T>(CacheLocation location) where T : ObservableApiObject;
+
+	/// <summary>
+	/// Gets all objects from the cache.
+	/// </summary>
+	/// <param name="location">The target cache.</param>
+	/// <param name="guildId">Filters by given guild id. Only object belong to given guild id are returned.</param>
+	/// <returns>The found object.</returns>
+	List<T> GetAllFiltered<T>(CacheLocation location, ulong guildId) where T : ObservableApiObject;
 
 	/// <summary>
 	/// Removes an object from the cache.
