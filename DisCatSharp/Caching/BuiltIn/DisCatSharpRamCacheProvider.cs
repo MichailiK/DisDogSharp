@@ -36,7 +36,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the channel cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordChannel> ChannelCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong?, ConcurrentDictionary<ulong, DiscordChannel>> ChannelCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int ThreadCacheSize
@@ -45,7 +45,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the thread cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordThreadChannel> ThreadCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public  ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordThreadChannel>> ThreadCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int MemberCacheSize
@@ -54,7 +54,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the member cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordMember> MemberCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordMember>> MemberCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int UserCacheSize
@@ -72,7 +72,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the role cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordRole> RoleCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordRole>> RoleCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int EmojiCacheSize
@@ -81,7 +81,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the emoji cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordGuildEmoji> EmojiCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordGuildEmoji>> EmojiCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int MessageCacheSize
@@ -99,7 +99,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the presence cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordPresence> PresenceCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordPresence>> PresenceCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int ScheduledEventCacheSize
@@ -108,7 +108,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the scheduled event cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordScheduledEvent> ScheduledEventCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordScheduledEvent>> ScheduledEventCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int VoiceStateCacheSize
@@ -117,7 +117,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the voice state cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordVoiceState> VoiceStateCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordVoiceState>> VoiceStateCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int InviteCacheSize
@@ -126,7 +126,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the invite cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordInvite> InviteCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordInvite>> InviteCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int StageInstanceCacheSize
@@ -135,7 +135,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the stage instance cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordStageInstance> StageInstanceCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordStageInstance>> StageInstanceCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int StickerCacheSize
@@ -144,7 +144,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the sticker cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordSticker> StickerCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong, ConcurrentDictionary<ulong, DiscordSticker>> StickerCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc />
 	public int InteractionCacheSize
@@ -153,7 +153,7 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	/// <summary>
 	/// Gets the interaction cache.
 	/// </summary>
-	public ConcurrentDictionary<ulong, DiscordInteraction> InteractionCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
+	public ConcurrentDictionary<ulong?, ConcurrentDictionary<ulong, DiscordInteraction>> InteractionCache { get; } = new(Configuration.CacheSize, Configuration.CacheSize);
 
 	/// <inheritdoc cref="IDisCatSharpCacheProvider.Configuration" />
 	public static DiscordConfiguration Configuration { internal get; set; }
@@ -172,19 +172,19 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 		{
 			CacheLocation.Guilds => this.GuildCache.Values.OfType<T>().ToList(),
 			CacheLocation.Users => this.UserCache.Values.OfType<T>().ToList(),
-			CacheLocation.Channels => this.ChannelCache.Values.OfType<T>().ToList(),
-			CacheLocation.Threads => this.ThreadCache.Values.OfType<T>().ToList(),
-			CacheLocation.Members => this.MemberCache.Values.OfType<T>().ToList(),
-			CacheLocation.Roles => this.RoleCache.Values.OfType<T>().ToList(),
-			CacheLocation.Emojis => this.EmojiCache.Values.OfType<T>().ToList(),
 			CacheLocation.Messages => this.MessageCache.Values.OfType<T>().ToList(),
-			CacheLocation.Presences => this.PresenceCache.Values.OfType<T>().ToList(),
-			CacheLocation.VoiceStates => this.VoiceStateCache.Values.OfType<T>().ToList(),
-			CacheLocation.Invites => this.InviteCache.Values.OfType<T>().ToList(),
-			CacheLocation.StageInstances => this.StageInstanceCache.Values.OfType<T>().ToList(),
-			CacheLocation.Stickers => this.StickerCache.Values.OfType<T>().ToList(),
-			CacheLocation.Interactions => this.InteractionCache.Values.OfType<T>().ToList(),
-			CacheLocation.ScheduledEvents => this.ScheduledEventCache.Values.OfType<T>().ToList(),
+			CacheLocation.Channels => this.ChannelCache.Where(x => x.Key is null).ToDictionary(x => x.Value.Keys, x => x.Value.Values).Values.OfType<T>().ToList(),
+			CacheLocation.Threads => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.Members => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.Roles => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.Emojis => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.Presences => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.VoiceStates => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.Invites => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.StageInstances => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.Stickers => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.Interactions => throw new NotSupportedException("Filtering is needed for this type of cache."),
+			CacheLocation.ScheduledEvents => throw new NotSupportedException("Filtering is needed for this type of cache."),
 			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location.")
 		};
 
@@ -192,19 +192,19 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 	public List<T> GetAllFiltered<T>(CacheLocation location, ulong guildId) where T : ObservableApiObject
 		=> location switch
 		{
-			CacheLocation.Channels => this.ChannelCache.Values.Where(x => x.GuildId is not null && x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.Threads => this.ThreadCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.Members => this.MemberCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.Roles => this.RoleCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.Emojis => this.EmojiCache.Values.Where(x => x.Guild.Id == guildId).OfType<T>().ToList(),
+			CacheLocation.Channels => this.ChannelCache.First(x => x.Key is not null && x.Key == guildId).Value.OfType<T>().ToList(),
+			CacheLocation.Threads => this.ThreadCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.Members => this.MemberCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.Roles => this.RoleCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.Emojis => this.EmojiCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
 			CacheLocation.Messages => this.MessageCache.Values.Where(x => x.GuildId is not null && x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.Presences => this.PresenceCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.VoiceStates => this.VoiceStateCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.StageInstances => this.StageInstanceCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.Stickers => this.StickerCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.Interactions => this.InteractionCache.Values.Where(x => x.GuildId is not null && x.GuildId == guildId).OfType<T>().ToList(),
-			CacheLocation.Invites => this.InviteCache.Values.Where(x => x.Guild is not null && x.Guild.Id == guildId).OfType<T>().ToList(),
-			CacheLocation.ScheduledEvents => this.ScheduledEventCache.Values.Where(x => x.GuildId == guildId).OfType<T>().ToList(),
+			CacheLocation.Presences => this.PresenceCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.VoiceStates => this.VoiceStateCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.StageInstances => this.StageInstanceCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.Stickers => this.StickerCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.Interactions => this.InteractionCache.First(x => x.Key is not null && x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.Invites => this.InviteCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
+			CacheLocation.ScheduledEvents => this.ScheduledEventCache.First(x => x.Key == guildId).Value.Values.OfType<T>().ToList(),
 			CacheLocation.Guilds => throw new NotSupportedException("Filtering not supported for this type of cache."),
 			CacheLocation.Users => throw new NotSupportedException("Filtering not supported for this type of cache."),
 			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location.")

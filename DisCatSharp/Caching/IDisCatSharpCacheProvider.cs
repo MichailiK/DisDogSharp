@@ -127,6 +127,8 @@ public interface IDisCatSharpCacheProvider
 
 	/// <summary>
 	/// Gets all objects from the cache.
+	/// <para>Only supports <see cref="CacheLocation.Guilds"/>, <see cref="CacheLocation.Channels"/>, <see cref="CacheLocation.Users"/> and <see cref="CacheLocation.Messages"/>.</para>
+	/// <para>Use <see cref="GetAllFiltered{T}"/> for guild specific locations.</para>
 	/// </summary>
 	/// <param name="location">The target cache.</param>
 	/// <returns>The found object.</returns>
