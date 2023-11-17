@@ -25,6 +25,7 @@ using Sentry;
 
 namespace DisCatSharp;
 
+// ReSharper disable HeuristicUnreachableCode
 /// <summary>
 /// Represents a common base for various Discord Client implementations.
 /// </summary>
@@ -443,7 +444,6 @@ public abstract class BaseDiscordClient : IDisposable
 	/// </summary>
 	public virtual async Task InitializeAsync()
 	{
-		// ReSharper disable HeuristicUnreachableCode
 		if (this.CurrentUser == null)
 		{
 			var user = await this.ApiClient.GetCurrentUserAsync().ConfigureAwait(false);
@@ -476,8 +476,6 @@ public abstract class BaseDiscordClient : IDisposable
 					}
 				}
 			});
-
-		// ReSharper enable HeuristicUnreachableCode
 	}
 
 	/// <summary>
