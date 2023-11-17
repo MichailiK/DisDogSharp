@@ -256,19 +256,41 @@ public sealed class DisCatSharpRamCacheProvider : IDisCatSharpCacheProvider
 		{
 			CacheLocation.Guilds => this.GuildCache.ContainsKey(id),
 			CacheLocation.Users => this.UserCache.ContainsKey(id),
-			CacheLocation.Channels => this.ChannelCache.ContainsKey(id),
-			CacheLocation.Threads => this.ThreadCache.ContainsKey(id),
-			CacheLocation.Members => this.MemberCache.ContainsKey(id),
-			CacheLocation.Roles => this.RoleCache.ContainsKey(id),
-			CacheLocation.Emojis => this.EmojiCache.ContainsKey(id),
+			CacheLocation.Channels => this.ChannelCache.Any(x => x.Value.ContainsKey(id)),
+			CacheLocation.Threads => this.ThreadCache.Any(x => x.Value.ContainsKey(id)),
+			CacheLocation.Members => throw new NotSupportedException("This type of cache has complicated nesting."),
+			CacheLocation.Roles => this.RoleCache.Any(x => x.Value.ContainsKey(id)),
+			CacheLocation.Emojis => this.EmojiCache.Any(x => x.Value.ContainsKey(id)),
 			CacheLocation.Messages => this.MessageCache.ContainsKey(id),
-			CacheLocation.Presences => this.PresenceCache.ContainsKey(id),
-			CacheLocation.VoiceStates => this.VoiceStateCache.ContainsKey(id),
-			CacheLocation.Invites => this.InviteCache.ContainsKey(id),
-			CacheLocation.StageInstances => this.StageInstanceCache.ContainsKey(id),
-			CacheLocation.Stickers => this.StickerCache.ContainsKey(id),
-			CacheLocation.Interactions => this.InteractionCache.ContainsKey(id),
-			CacheLocation.ScheduledEvents => this.ScheduledEventCache.ContainsKey(id),
+			CacheLocation.Presences => throw new NotSupportedException("This type of cache has complicated nesting."),
+			CacheLocation.VoiceStates => throw new NotSupportedException("This type of cache has complicated nesting."),
+			CacheLocation.Invites => this.InviteCache.Any(x => x.Value.ContainsKey(id)),
+			CacheLocation.StageInstances => this.StageInstanceCache.Any(x => x.Value.ContainsKey(id)),
+			CacheLocation.Stickers => this.StickerCache.Any(x => x.Value.ContainsKey(id)),
+			CacheLocation.Interactions => this.InteractionCache.Any(x => x.Value.ContainsKey(id)),
+			CacheLocation.ScheduledEvents => this.ScheduledEventCache.Any(x => x.Value.ContainsKey(id)),
+			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location.")
+		};
+
+	/// <inheritdoc />
+	public bool HasNestedKey(CacheLocation location, ulong guildId, ulong id)
+		=> location switch
+		{
+			CacheLocation.Guilds => throw new NotSupportedException("This type of cache has no nesting."),
+			CacheLocation.Users => throw new NotSupportedException("This type of cache has no nesting."),
+			CacheLocation.Channels => this.ChannelCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.Threads => this.ThreadCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.Members => this.MemberCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.Roles => this.RoleCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.Emojis => this.EmojiCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.Messages => this.MessageCache.Where(x => x.Value.GuildId is not null && x.Value.GuildId == guildId).ToDictionary(x => x.Key, x => x.Value).ContainsKey(id),
+			CacheLocation.Presences => this.PresenceCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.VoiceStates => this.VoiceStateCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.Invites => this.InviteCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.StageInstances => this.StageInstanceCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.Stickers => this.StickerCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.Interactions => this.InteractionCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
+			CacheLocation.ScheduledEvents => this.ScheduledEventCache.FirstOrDefault(x => x.Key == guildId).Value.ContainsKey(id),
 			_ => throw new ArgumentOutOfRangeException(nameof(location), "Unknown cache location.")
 		};
 }

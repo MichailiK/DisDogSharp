@@ -202,6 +202,15 @@ public interface IDisCatSharpCacheProvider
 	bool HasKey(CacheLocation location, ulong id);
 
 	/// <summary>
+	/// Checks whether an object is in the cache.
+	/// </summary>
+	/// <param name="location">The target cache.</param>
+	/// <param name="guildId">The target guild id.</param>
+	/// <param name="id">The id to lookup.</param>
+	/// <returns>Whether an object for the id was found.</returns>
+	bool HasNestedKey(CacheLocation location, ulong guildId, ulong id);
+
+	/// <summary>
 	/// Tries to remove an object from the cache.
 	/// </summary>
 	/// <typeparam name="T">The target object type.</typeparam>
