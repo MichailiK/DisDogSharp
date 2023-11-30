@@ -5574,24 +5574,23 @@ public sealed class DiscordApiClient
 					flags |= MessageFlags.SuppressNotifications;
 			}
 
-			var data = builder != null ? new DiscordInteractionApplicationCommandCallbackData
-			{
-				Content = builder?.Content ?? null,
-				Embeds = builder?.Embeds ?? null,
-				IsTts = builder?.IsTts,
-				Mentions = builder?.Mentions ?? null,
-				Flags = flags,
-				Components = builder?.Components ?? null,
-				Choices = null
-			} : null;
-
+			var data = builder != null
+				? new DiscordInteractionApplicationCommandCallbackData
+				{
+					Content = builder?.Content ?? null,
+					Embeds = builder?.Embeds ?? null,
+					IsTts = builder?.IsTts,
+					Mentions = builder?.Mentions ?? null,
+					Flags = flags,
+					Components = builder?.Components ?? null,
+					Choices = null
+				}
+				: null;
 
 			pld = new()
 			{
-				Type = type,
-				Data = data
+				Type = type, Data = data, CallbackHints = builder?.CallbackHints
 			};
-
 
 			if (builder != null && builder.Files != null && builder.Files.Count > 0)
 			{
@@ -5610,6 +5609,7 @@ public sealed class DiscordApiClient
 					attachments.Add(att);
 					fileId++;
 				}
+
 				pld.Attachments = attachments;
 				pld.Data.Attachments = attachments;
 			}
@@ -5630,7 +5630,8 @@ public sealed class DiscordApiClient
 					Choices = builder.Choices,
 					Attachments = null
 				},
-				Attachments = null
+				Attachments = null,
+				CallbackHints = null
 			};
 		}
 
@@ -5641,7 +5642,10 @@ public sealed class DiscordApiClient
 				values["payload_json"] = DiscordJson.SerializeObject(pld);
 
 		var route = $"{Endpoints.INTERACTIONS}/:interaction_id/:interaction_token{Endpoints.CALLBACK}";
-		var bucket = this.Rest.GetBucket(RestRequestMethod.POST, route, new {interaction_id = interactionId, interaction_token = interactionToken }, out var path);
+		var bucket = this.Rest.GetBucket(RestRequestMethod.POST, route, new
+		{
+			interaction_id = interactionId, interaction_token = interactionToken
+		}, out var path);
 
 		var url = Utilities.GetApiUriBuilderFor(path, this.Discord.Configuration).AddParameter("wait", "false").Build();
 		if (builder != null)
@@ -5672,16 +5676,18 @@ public sealed class DiscordApiClient
 			Type = type,
 			Data = new()
 			{
-				Title = builder.Title,
-				CustomId = builder.CustomId,
-				ModalComponents = builder.ModalComponents
-			}
+				Title = builder.Title, CustomId = builder.CustomId, ModalComponents = builder.ModalComponents
+			},
+			CallbackHints = builder?.CallbackHints
 		};
 
 		var values = new Dictionary<string, string>();
 
 		var route = $"{Endpoints.INTERACTIONS}/:interaction_id/:interaction_token{Endpoints.CALLBACK}";
-		var bucket = this.Rest.GetBucket(RestRequestMethod.POST, route, new {interaction_id = interactionId, interaction_token = interactionToken }, out var path);
+		var bucket = this.Rest.GetBucket(RestRequestMethod.POST, route, new
+		{
+			interaction_id = interactionId, interaction_token = interactionToken
+		}, out var path);
 
 		var url = Utilities.GetApiUriBuilderFor(path, this.Discord.Configuration).AddParameter("wait", "true").Build();
 		await this.DoRequestAsync(this.Discord, bucket, url, RestRequestMethod.POST, route, payload: DiscordJson.SerializeObject(pld)).ConfigureAwait(false);
@@ -5704,17 +5710,18 @@ public sealed class DiscordApiClient
 			Type = type,
 			Data = new()
 			{
-				Title = title,
-				CustomId = customId,
-				ModalSize = modalSize,
-				IframePath = iFramePath
-			}
+				Title = title, CustomId = customId, ModalSize = modalSize, IframePath = iFramePath
+			},
+			CallbackHints = null
 		};
 
 		var values = new Dictionary<string, string>();
 
 		var route = $"{Endpoints.INTERACTIONS}/:interaction_id/:interaction_token{Endpoints.CALLBACK}";
-		var bucket = this.Rest.GetBucket(RestRequestMethod.POST, route, new {interaction_id = interactionId, interaction_token = interactionToken }, out var path);
+		var bucket = this.Rest.GetBucket(RestRequestMethod.POST, route, new
+		{
+			interaction_id = interactionId, interaction_token = interactionToken
+		}, out var path);
 
 		var url = Utilities.GetApiUriBuilderFor(path, this.Discord.Configuration).AddParameter("wait", "true").Build();
 		await this.DoRequestAsync(this.Discord, bucket, url, RestRequestMethod.POST, route, payload: DiscordJson.SerializeObject(pld)).ConfigureAwait(false);
