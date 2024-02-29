@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -349,7 +350,7 @@ public sealed partial class DiscordClient
 		{
 			this.Logger.LogTrace(LoggerEvents.WebSocketReceive, "Received INVALID_SESSION (OP9, false)");
 			this._sessionId = null;
-			await this.SendIdentifyAsync(this._status).ConfigureAwait(false);
+			await this.SendIdentifyAsync(this._status, "invalidate").ConfigureAwait(false);
 		}
 	}
 
@@ -377,7 +378,7 @@ public sealed partial class DiscordClient
 		this._heartbeatTask = Task.Run(this.HeartbeatLoopAsync, this._cancelToken);
 
 		if (string.IsNullOrEmpty(this._sessionId))
-			await this.SendIdentifyAsync(this._status).ConfigureAwait(false);
+			await this.SendIdentifyAsync(this._status, "hello").ConfigureAwait(false);
 		else
 			await this.SendResumeAsync().ConfigureAwait(false);
 	}
@@ -538,7 +539,8 @@ public sealed partial class DiscordClient
 	/// Sends the identify payload.
 	/// </summary>
 	/// <param name="status">The status update payload.</param>
-	internal async Task SendIdentifyAsync(StatusUpdate? status)
+	/// <param name="origin">The origin of the call.</param>
+	internal async Task SendIdentifyAsync(StatusUpdate? status, string origin)
 	{
 		var identify = new GatewayIdentify
 		{
@@ -562,7 +564,7 @@ public sealed partial class DiscordClient
 		var payloadstr = JsonConvert.SerializeObject(payload);
 		await this.WsSendAsync(payloadstr).ConfigureAwait(false);
 
-		this.Logger.LogDebug(LoggerEvents.Intents, "Registered gateway intents ({Intents})", this.Configuration.Intents);
+		this.Logger.LogDebug(LoggerEvents.Intents, "Registered gateway intents ({Intents}, {origin})", this.Configuration.Intents, origin);
 	}
 
 	/// <summary>
