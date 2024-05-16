@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<ItemGroup>
+		<InternalsVisibleTo Include="DisDogSharp" />
+		<InternalsVisibleTo Include="DisDogSharp.ApplicationCommands" />
+		<InternalsVisibleTo Include="DisDogSharp.CommandsNext" />
+		<InternalsVisibleTo Include="DisDogSharp.Common" />
+		<InternalsVisibleTo Include="DisDogSharp.Configuration" />
+		<InternalsVisibleTo Include="DisDogSharp.Configuration.Tests" />
+		<InternalsVisibleTo Include="DisDogSharp.EventHandlers.Tests" />
+		<InternalsVisibleTo Include="DisDogSharp.Hosting" />
+		<InternalsVisibleTo Include="DisDogSharp.Hosting.DependencyInjection" />
+		<InternalsVisibleTo Include="DisDogSharp.Hosting.Tests" />
+		<InternalsVisibleTo Include="DisDogSharp.Interactivity" />
+		<InternalsVisibleTo Include="DisDogSharp.Lavalink" />
+		<InternalsVisibleTo Include="DisDogSharp.LavalinkV1" />
+		<InternalsVisibleTo Include="DisDogSharp.Phabricator" />
+		<InternalsVisibleTo Include="DisDogSharp.Support" />
+		<InternalsVisibleTo Include="DisDogSharp.Tests" />
+		<InternalsVisibleTo Include="DisDogSharp.SafetyTests.Internal" />
+		<InternalsVisibleTo Include="DisDogSharp.ApplicationCommands.Tests" />
+		<InternalsVisibleTo Include="DisDogSharp.VoiceNext" />
+		<InternalsVisibleTo Include="DisDogSharp.VoiceNext.Natives" />
+		<InternalsVisibleTo Include="DisDogSharp.DevTools" />
+		<InternalsVisibleTo Include="DisDogSharp.DocsGenerator" />
+		<InternalsVisibleTo Include="DisDogSharp.StaffApps" />
+		<InternalsVisibleTo Include="DisDogSharp.Experimental" />
+		<InternalsVisibleTo Include="DisDogSharp.Extensions.OAuth2Web" />
+		<InternalsVisibleTo Include="DisDogSharp.Extensions.TwoFactorCommands" />
+		<InternalsVisibleTo Include="Nyaw" />
+		<InternalsVisibleTo Include="MikuSharp" />
+		<InternalsVisibleTo Include="Microsoft.DocAsCode" />
+		<InternalsVisibleTo Include="Microsoft.DocAsCode.Metadata.ManagedReference" />
+		<InternalsVisibleTo Include="ProjectMakoto" />
+		<InternalsVisibleTo Include="SidePlus_AuthBot" />
+		<InternalsVisibleTo Include="SidePlus_Helper" />
+		<InternalsVisibleTo Include="Cache_Design" />
+		<InternalsVisibleTo Include="DisDogSharp.Extensions" />
+		<InternalsVisibleTo Include="DisDogSharp.Bots.DocBot" />
+		<InternalsVisibleTo Include="DisDogSharp.Bots.DocBot.Bot" />
+	</ItemGroup>
+</Project>

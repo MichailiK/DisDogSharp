@@ -18,7 +18,7 @@ on:
         - 'DisCatSharp.Lavalink/**'
         - 'DisCatSharp.VoiceNext/**'
         - 'DisCatSharp.VoiceNext.Natives/**'
-        - 'DisCatSharp.Targets/**'
+        - 'DisDogSharp.Targets/**'
         - 'DisCatSharp.sln'
 
 env:

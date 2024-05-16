@@ -1,0 +1,18 @@
+using System.Diagnostics.CodeAnalysis;
+
+[assembly: SuppressMessage("Usage", "DCS0102:[Discord] Deprecated", Justification = "<Pending>")]
+[assembly: SuppressMessage("Usage", "DCS0101:[Discord] InExperiment", Justification = "<Pending>")]
+[assembly: SuppressMessage("Usage", "DCS0103:[Discord] InExperiment", Justification = "<Pending>")]
+[assembly: SuppressMessage("Usage", "DCS0001:[Discord] InExperiment", Justification = "<Pending>")]
+[assembly: SuppressMessage("Usage", "DCS0002:[Discord] InExperiment", Justification = "<Pending>")]
+[assembly: SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "<Pending>")]
+[assembly: SuppressMessage("GeneratedRegex", "SYSLIB1045:Convert to 'GeneratedRegexAttribute'.", Justification = "<Pending>")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkChannelMix.#ctor(DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single})")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkDisortion.#ctor(DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single})")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkEqualizer.#ctor(DisDogSharp.Lavalink.Enums.Filters.LavalinkFilterBand,System.Single)")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkKaraoke.#ctor(DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single})")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkLowPass.#ctor(DisDogSharp.Entities.Optional{System.Single})")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkRotation.#ctor(DisDogSharp.Entities.Optional{System.Single})")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkTimescale.#ctor(DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single})")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkTremolo.#ctor(DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single})")]
+[assembly: SuppressMessage("Style", "IDE0290:Use primary constructor", Justification = "<Pending>", Scope = "member", Target = "~M:DisDogSharp.Lavalink.Entities.Filters.LavalinkVibrato.#ctor(DisDogSharp.Entities.Optional{System.Single},DisDogSharp.Entities.Optional{System.Single})")]

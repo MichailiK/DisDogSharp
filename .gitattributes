@@ -62,6 +62,6 @@
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
 
-DisCatSharp.Docs/obj/.cache/build/** binary
-DisCatSharp.Docs/obj/.cache/build/**/** binary
-DisCatSharp.Docs/obj/.cache/build/**/* binary
+DisDogSharp.Docs/obj/.cache/build/** binary
+DisDogSharp.Docs/obj/.cache/build/**/** binary
+DisDogSharp.Docs/obj/.cache/build/**/* binary
